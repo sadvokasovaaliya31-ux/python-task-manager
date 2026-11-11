@@ -38,14 +38,22 @@ def search_tasks(query: str) -> list:
     return [task for task in tasks if query in task["title"].lower()]
 
 
+# НОВАЯ ФУНКЦИЯ (добавлена на Этапе 7)
+def clear_all_tasks() -> None:
+    global tasks, next_id
+    tasks.clear()
+    next_id = 1
+    print("Все задачи успешно удалены!")
+
+
 def print_menu() -> None:
-    # КОНФЛИКТ РАЗРЕШЕН: Объединили оба варианта, маркеры удалены
     print("\n=== Система управления задачами v2.0 (TASK MANAGER FEATURE) ===") 
     print("1. Добавить задачу")
     print("2. Показать задачи")
     print("3. Отметить задачу выполненной")
     print("4. Удалить задачу")
     print("5. Поиск задач")
+    print("6. Очистить все задачи") # <-- ДОБАВЛЕННЫЙ ПУНКТ
     print("0. Выход")
 
 
@@ -89,6 +97,8 @@ def main() -> None:
                     print(f"#{task['id']} {task['title']}")
             else:
                 print("Ничего не найдено")
+        elif choice == "6": # <-- ОБРАБОТКА НОВОГО ПУНКТА
+            clear_all_tasks()
         elif choice == "0":
             break
         else:
