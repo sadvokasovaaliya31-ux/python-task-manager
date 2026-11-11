@@ -44,6 +44,7 @@ def print_menu() -> None:
     print("2. Показать задачи")
     print("3. Отметить задачу выполненной")
     print("4. Удалить задачу")
+    print("5. Поиск задач")  # <-- Добавлено
     print("0. Выход")
 
 
@@ -79,6 +80,14 @@ def main() -> None:
                 print("Задача удалена")
             else:
                 print("Задача не найдена")
+        elif choice == "5":  # <-- Добавлено
+            query = input("Что искать: ")
+            results = search_tasks(query)
+            if results:
+                for task in results:
+                    print(f"#{task['id']} {task['title']}")
+            else:
+                print("Ничего не найдено")
         elif choice == "0":
             break
         else:
