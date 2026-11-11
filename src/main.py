@@ -33,17 +33,12 @@ def validate_task_id(value: str) -> bool:
     return value.isdigit() and int(value) > 0
 
 
-def search_tasks(query: str) -> list:
-    query = query.lower()
-    return [task for task in tasks if query in task["title"].lower()]
-
-
 def print_menu() -> None:
-    print("\n1. Добавить задачу")
+    print("\n=== TASK MANAGER v1.1 ===")  # <-- ИЗМЕНЕНИЕ ЗДЕСЬ
+    print("1. Добавить задачу")
     print("2. Показать задачи")
     print("3. Отметить задачу выполненной")
     print("4. Удалить задачу")
-    print("5. Поиск задач")  # <-- ДОБАВЛЕНО
     print("0. Выход")
 
 
@@ -79,14 +74,6 @@ def main() -> None:
                 print("Задача удалена")
             else:
                 print("Задача не найдена")
-        elif choice == "5":  # <-- ДОБАВЛЕНО
-            query = input("Что искать: ")
-            results = search_tasks(query)
-            if results:
-                for task in results:
-                    print(f"#{task['id']} {task['title']}")
-            else:
-                print("Ничего не найдено")
         elif choice == "0":
             break
         else:
