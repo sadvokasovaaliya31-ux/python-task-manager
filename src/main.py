@@ -22,10 +22,38 @@ def mark_done(task_id: int) -> bool:
     return False
 
 
+def delete_task(task_id: int) -> bool:
+    global tasks
+    before = len(tasks)
+    tasks = [task for task in tasks if task["id"] != task_id]
+    return len(tasks) < before
+
+
+def validate_task_id(value: str) -> bool:
+    return value.isdigit() and int(value) > 0
+
+
+def search_tasks(query: str) -> list:
+    query = query.lower()
+    return [task for task in tasks if query in task["title"].lower()]
+
+
+# НОВАЯ ФУНКЦИЯ (добавлена на Этапе 7)
+def clear_all_tasks() -> None:
+    global tasks, next_id
+    tasks.clear()
+    next_id = 1
+    print("Все задачи успешно удалены!")
+
+
 def print_menu() -> None:
-    print("\n1. Добавить задачу")
+    print("\n=== Система управления задачами v2.0 (TASK MANAGER FEATURE) ===") 
+    print("1. Добавить задачу")
     print("2. Показать задачи")
     print("3. Отметить задачу выполненной")
+    print("4. Удалить задачу")
+    print("5. Поиск задач")
+    print("6. Очистить все задачи") # <-- ДОБАВЛЕННЫЙ ПУНКТ
     print("0. Выход")
 
 
@@ -42,14 +70,35 @@ def main() -> None:
                 status = "✓" if task["done"] else "✗"
                 print(f"[{status}] #{task['id']} {task['title']}")
         elif choice == "3":
-            try:
-                task_id = int(input("ID задачи: "))
-                if mark_done(task_id):
-                    print("Задача выполнена")
-                else:
-                    print("Задача не найдена")
-            except ValueError:
-                print("Нужно ввести число")
+            value = input("ID задачи: ").strip()
+            if not validate_task_id(value):
+                print("Некорректный ID")
+                continue
+            task_id = int(value)
+            if mark_done(task_id):
+                print("Задача выполнена")
+            else:
+                print("Задача не найдена")
+        elif choice == "4":
+            value = input("ID задачи для удаления: ").strip()
+            if not validate_task_id(value):
+                print("Некорректный ID")
+                continue
+            task_id = int(value)
+            if delete_task(task_id):
+                print("Задача удалена")
+            else:
+                print("Задача не найдена")
+        elif choice == "5":
+            query = input("Что искать: ")
+            results = search_tasks(query)
+            if results:
+                for task in results:
+                    print(f"#{task['id']} {task['title']}")
+            else:
+                print("Ничего не найдено")
+        elif choice == "6": # <-- ОБРАБОТКА НОВОГО ПУНКТА
+            clear_all_tasks()
         elif choice == "0":
             break
         else:
