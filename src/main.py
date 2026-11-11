@@ -22,10 +22,18 @@ def mark_done(task_id: int) -> bool:
     return False
 
 
+def delete_task(task_id: int) -> bool:
+    global tasks
+    before = len(tasks)
+    tasks = [task for task in tasks if task["id"] != task_id]
+    return len(tasks) < before
+
+
 def print_menu() -> None:
     print("\n1. Добавить задачу")
     print("2. Показать задачи")
     print("3. Отметить задачу выполненной")
+    print("4. Удалить задачу")
     print("0. Выход")
 
 
@@ -46,6 +54,15 @@ def main() -> None:
                 task_id = int(input("ID задачи: "))
                 if mark_done(task_id):
                     print("Задача выполнена")
+                else:
+                    print("Задача не найдена")
+            except ValueError:
+                print("Нужно ввести число")
+        elif choice == "4":
+            try:
+                task_id = int(input("ID задачи для удаления: "))
+                if delete_task(task_id):
+                    print("Задача удалена")
                 else:
                     print("Задача не найдена")
             except ValueError:
