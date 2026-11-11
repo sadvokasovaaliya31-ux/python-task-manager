@@ -33,6 +33,11 @@ def validate_task_id(value: str) -> bool:
     return value.isdigit() and int(value) > 0
 
 
+def search_tasks(query: str) -> list:
+    query = query.lower()
+    return [task for task in tasks if query in task["title"].lower()]
+
+
 def print_menu() -> None:
     print("\n1. Добавить задачу")
     print("2. Показать задачи")
