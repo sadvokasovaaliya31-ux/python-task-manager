@@ -29,6 +29,10 @@ def delete_task(task_id: int) -> bool:
     return len(tasks) < before
 
 
+def validate_task_id(value: str) -> bool:
+    return value.isdigit() and int(value) > 0
+
+
 def print_menu() -> None:
     print("\n1. Добавить задачу")
     print("2. Показать задачи")
@@ -50,23 +54,25 @@ def main() -> None:
                 status = "✓" if task["done"] else "✗"
                 print(f"[{status}] #{task['id']} {task['title']}")
         elif choice == "3":
-            try:
-                task_id = int(input("ID задачи: "))
-                if mark_done(task_id):
-                    print("Задача выполнена")
-                else:
-                    print("Задача не найдена")
-            except ValueError:
-                print("Нужно ввести число")
+            value = input("ID задачи: ").strip()
+            if not validate_task_id(value):
+                print("Некорректный ID")
+                continue
+            task_id = int(value)
+            if mark_done(task_id):
+                print("Задача выполнена")
+            else:
+                print("Задача не найдена")
         elif choice == "4":
-            try:
-                task_id = int(input("ID задачи для удаления: "))
-                if delete_task(task_id):
-                    print("Задача удалена")
-                else:
-                    print("Задача не найдена")
-            except ValueError:
-                print("Нужно ввести число")
+            value = input("ID задачи для удаления: ").strip()
+            if not validate_task_id(value):
+                print("Некорректный ID")
+                continue
+            task_id = int(value)
+            if delete_task(task_id):
+                print("Задача удалена")
+            else:
+                print("Задача не найдена")
         elif choice == "0":
             break
         else:
