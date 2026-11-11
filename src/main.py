@@ -39,12 +39,13 @@ def search_tasks(query: str) -> list:
 
 
 def print_menu() -> None:
-    print("\n=== TASK MANAGER v1.1 ===")
+    # ИЗМЕНЕННАЯ СТРОКА:
+    print("\n=== TASK MANAGER: ВЕТКА FEATURE CHANGE-TITLE ===") 
     print("1. Добавить задачу")
     print("2. Показать задачи")
     print("3. Отметить задачу выполненной")
     print("4. Удалить задачу")
-    print("5. Поиск задач")  # <-- Добавлено
+    print("5. Поиск задач")
     print("0. Выход")
 
 
@@ -80,7 +81,7 @@ def main() -> None:
                 print("Задача удалена")
             else:
                 print("Задача не найдена")
-        elif choice == "5":  # <-- Добавлено
+        elif choice == "5":
             query = input("Что искать: ")
             results = search_tasks(query)
             if results:
